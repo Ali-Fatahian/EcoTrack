@@ -42,7 +42,6 @@ repos:
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
-        args: ['--ignore', COM812]
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
