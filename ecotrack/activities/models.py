@@ -45,5 +45,6 @@ class Activity(models.Model):
         return f"Activity of type {self.category.name} by {self.user.username}"
 
     def save(self, *args, **kwargs):
-        self.co2_amount = self.quantity * self.category.co2_factor
+        if self.category.pk and self.quantity is not None:
+            self.co2_amount = self.quantity * self.category.co2_factor
         super().save(*args, **kwargs)
