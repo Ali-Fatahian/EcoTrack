@@ -11,7 +11,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(blank=True, null=False, unique=True, db_index=True)
     icon = models.CharField(max_length=255)
-    co2_factor = models.DecimalField(max_digits=10, decimal_places=2)
+    co2_factor = models.DecimalField(max_digits=12, decimal_places=3)
 
     class Meta:
         verbose_name_plural = "Categories"
