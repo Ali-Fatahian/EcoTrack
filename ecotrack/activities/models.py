@@ -41,6 +41,9 @@ class Activity(models.Model):
         max_digits=12, decimal_places=3, blank=True, null=True, editable=False
     )  # Not intended for manual editing
 
+    class Meta:
+        ordering = ["-date"]
+
     def __str__(self):
         return f"Activity of type {self.category.name} by {self.user.username}"
 
