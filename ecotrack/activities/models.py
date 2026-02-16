@@ -13,6 +13,9 @@ class Category(models.Model):
     icon = models.CharField(max_length=255)
     co2_factor = models.DecimalField(max_digits=10, decimal_places=2)
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
     def __str__(self):
         return self.name
 
@@ -43,6 +46,7 @@ class Activity(models.Model):
 
     class Meta:
         ordering = ["-date"]
+        verbose_name_plural = "Activities model"
 
     def __str__(self):
         return f"Activity of type {self.category.name} by {self.user.username}"
