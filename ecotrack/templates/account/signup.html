@@ -3,6 +3,9 @@
 {% load static i18n %}
 {% load crispy_forms_tags %}
 
+{% block title %}
+  {{ block.super }} | {% trans 'Sign Up' %}
+{% endblock title %}
 {% block content %}
   <section class="container mt-5">
     <div class="row justify-content-center">
