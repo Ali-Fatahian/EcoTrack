@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static i18n %}
+
+{% block title %}
+  {{ block.super }} |
+  {% if form.instance.pk %}
+    {% trans 'Edit Activity' %}
+  {% else %}
+    {% trans 'New Activity' %}
+  {% endif %}
+{% endblock title %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-4 text-center">
+              {% if form.instance.pk %}
+                Edit Activity
+              {% else %}
+                New Activity
+              {% endif %}
+            </h3>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              {% for field in form %}
+                <div class="mb-3">
+                  <label for="{{ field.id_for_label }}"
+                         class="form-label fw-bold small text-uppercase text-muted">{{ field.label }}</label>
+                  <div class="input-group">{{ field }}</div>
+                  {% if field.help_text %}<div class="form-text small">{{ field.help_text }}</div>{% endif %}
+                  {% for error in field.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+                </div>
+              {% endfor %}
+              <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-dark btn-lg">
+                  {% if form.instance.pk %}
+                    Update Activity
+                  {% else %}
+                    Save Activity
+                  {% endif %}
+                </button>
+                <a href="{% url 'activities:list' %}"
+                   class="btn btn-link text-muted text-decoration-none">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
