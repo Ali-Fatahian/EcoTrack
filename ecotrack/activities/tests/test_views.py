@@ -78,3 +78,28 @@ class TestActivityListView:
         activities = response.context["activities"]
         assert my_activity in activities
         assert other_user_activity not in activities
+
+
+class TestActivityCreateView:
+    def test_create_activity(self, client, user, category):
+        client.force_login(user)
+        url = reverse("activities:create")
+
+        data = {
+            "category": category.id,
+            "quantity": 50,
+            "unit": "km",
+            "date": timezone.now().date(),
+            "description": "New Trip",
+        }
+
+        response = client.post(url, data)
+
+        # Should redirect to list after success
+        assert response.status_code == 302
+        assert response.url == reverse("activities:list")
+
+        assert Activity.objects.count() == 1
+        activity = Activity.objects.first()
+        assert activity.user == user
+        assert activity.quantity == 50
