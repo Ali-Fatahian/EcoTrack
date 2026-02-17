@@ -3,6 +3,7 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.utils import timezone
+from django.views.generic import ListView
 from django.views.generic import TemplateView
 
 from ecotrack.activities.models import Activity
@@ -55,3 +56,13 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context["recent_activities"] = last_five_activities
 
         return context
+
+
+class ActivityListView(ListView):
+    model = Activity
+    template_name = "activity_list.html"
+    context_object_name = "activities"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Activity.objects.filter(user=self.request.user)
