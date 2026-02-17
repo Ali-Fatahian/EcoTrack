@@ -128,3 +128,7 @@ body {
   border-left: 5px solid #212529 !important; /* The "Success" Indicator */
   font-weight: 500;
 }
+
+.h-300 {
+  height: 300px;
+}
