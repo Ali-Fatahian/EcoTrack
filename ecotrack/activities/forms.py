@@ -20,9 +20,7 @@ class ActivityForm(forms.ModelForm):
                     "placeholder": "e.g., 10",
                 }
             ),
-            "unit": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "e.g., km, kg, kWh"}
-            ),
+            "unit": forms.Select(attrs={"class": "form-select"}),
             "description": forms.Textarea(
                 attrs={
                     "class": "form-control",

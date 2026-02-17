@@ -26,6 +26,13 @@ class Category(models.Model):
 
 
 class Activity(models.Model):
+    class UnitChoices(models.TextChoices):
+        KILOMETER = "km", "Kilometers (km)"
+        KILOGRAM = "kg", "Kilograms (kg)"
+        KWH = "kWh", "Kilowatt-hours (kWh)"
+        LITER = "l", "Liters (l)"
+        HOUR = "h", "Hours (h)"
+
     user = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name="activities"
     )
@@ -36,7 +43,9 @@ class Activity(models.Model):
     quantity = models.DecimalField(
         max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal("0.01"))]
     )  # Prevent negative values
-    unit = models.CharField(max_length=20)
+    unit = models.CharField(
+        max_length=10, choices=UnitChoices.choices, default=UnitChoices.KILOMETER
+    )
     date = models.DateField(
         default=timezone.now, help_text="The date the activity occurred"
     )
