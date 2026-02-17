@@ -8,7 +8,7 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path("", include("ecotracks.activities.urls", namespace="activities")),
+    path("", include("ecotrack.activities.urls", namespace="activities")),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
