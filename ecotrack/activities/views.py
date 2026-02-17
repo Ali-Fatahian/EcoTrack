@@ -1,8 +1,11 @@
+import csv
 import json
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Sum
+from django.http import HttpResponse
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import ListView
@@ -108,3 +111,33 @@ class ConfirmDeleteView(LoginRequiredMixin, IsOwnerMixin, DeleteView):
 
     def get_success_url(self):
         return reverse("activities:list")
+
+
+@login_required
+def export_activities_csv(request):
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="my_activities.csv"'},
+    )
+
+    writer = csv.writer(response)
+
+    writer.writerow([f"EcoTrack Activity Log - Generated on {timezone.now().date()}"])
+
+    writer.writerow(["Date", "Category", "Quantity", "Unit", "CO2 (kg)", "Description"])
+
+    activities = request.user.activities.all().select_related("category")
+
+    for activity in activities:
+        writer.writerow(
+            [
+                activity.date,
+                activity.category.name,
+                activity.quantity,
+                activity.unit,
+                activity.co2_amount,
+                activity.description,
+            ]
+        )
+
+    return response

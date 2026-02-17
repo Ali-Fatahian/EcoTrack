@@ -12,4 +12,5 @@ urlpatterns = [
     path(
         "activities/<int:pk>/delete", views.ConfirmDeleteView.as_view(), name="delete"
     ),
+    path("activities/download", views.export_activities_csv, name="export-csv"),
 ]
