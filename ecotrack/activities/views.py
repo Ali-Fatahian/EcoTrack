@@ -4,6 +4,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.urls import reverse
@@ -83,10 +84,11 @@ class ActivityListView(ListView):
         return Activity.objects.filter(user=self.request.user)
 
 
-class ActivityCreateView(LoginRequiredMixin, CreateView):
+class ActivityCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Activity
     form_class = ActivityForm
     template_name = "activities/activity_form.html"
+    success_message = "The new activity was successfully created!"
 
     def get_success_url(self):
         return reverse("activities:list")
@@ -96,18 +98,24 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ActivityUpdateView(LoginRequiredMixin, IsOwnerMixin, UpdateView):
+class ActivityUpdateView(
+    LoginRequiredMixin, SuccessMessageMixin, IsOwnerMixin, UpdateView
+):
     model = Activity
     form_class = ActivityForm
     template_name = "activities/activity_form.html"
+    success_message = "The activity was updated!"
 
     def get_success_url(self):
         return reverse("activities:list")
 
 
-class ConfirmDeleteView(LoginRequiredMixin, IsOwnerMixin, DeleteView):
+class ConfirmDeleteView(
+    LoginRequiredMixin, SuccessMessageMixin, IsOwnerMixin, DeleteView
+):
     model = Activity
     template_name = "activities/activity_confirm_delete.html"
+    success_message = "The activity was deleted!"
 
     def get_success_url(self):
         return reverse("activities:list")
