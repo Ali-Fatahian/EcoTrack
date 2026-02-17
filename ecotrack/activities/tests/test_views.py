@@ -138,3 +138,14 @@ class TestActivityUpdateView:
         response = client.get(url)
 
         assert response.status_code == 403
+
+
+class TestConfirmDeleteView:
+    def test_delete_activity(self, client, user, activity):
+        client.force_login(user)
+        url = reverse("activities:delete", kwargs={"pk": activity.pk})
+
+        response = client.post(url)
+        assert response.status_code == 302
+
+        assert Activity.objects.filter(pk=activity.pk).exists() is False
