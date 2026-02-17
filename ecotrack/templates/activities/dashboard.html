@@ -69,6 +69,10 @@
                    role="progressbar"
                    style="width: {{ progress_percentage }}%">{{ monthly_sum }} / {{ monthly_goal }} kg</div>
             </div>
+            <a href="{% url 'users:profile-edit' %}"
+               class="text-decoration-none hover-link small">
+              <i class="bi bi-pencil-square"></i> Edit Goal
+            </a>
           </div>
         </div>
         <div class="col-md-4">
