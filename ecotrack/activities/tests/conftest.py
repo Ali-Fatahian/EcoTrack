@@ -2,7 +2,9 @@ from decimal import Decimal
 
 import pytest
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
+from ecotrack.activities.models import Activity
 from ecotrack.activities.models import Category
 
 
@@ -32,3 +34,15 @@ def other_user():
 @pytest.fixture
 def category():
     return Category.objects.create(name="Flug", icon="🛩️", co2_factor=Decimal(".255"))
+
+
+@pytest.fixture
+def activity(user, category):
+    return Activity.objects.create(
+        user=user,
+        category=category,
+        quantity=10,
+        unit="km",
+        date=timezone.now().date(),
+        description="Test Drive",
+    )

@@ -103,3 +103,38 @@ class TestActivityCreateView:
         activity = Activity.objects.first()
         assert activity.user == user
         assert activity.quantity == 50
+
+
+class TestActivityUpdateView:
+    def test_update_activity_success(self, client, user, activity):
+        """Test that the owner can update their activity."""
+        client.force_login(user)
+        url = reverse("activities:update", kwargs={"pk": activity.pk})
+
+        data = {
+            "category": activity.category.id,
+            "quantity": 999,  # Changed value
+            "unit": "km",
+            "date": activity.date,
+            "description": "Updated",
+        }
+
+        response = client.post(url, data)
+
+        assert response.status_code == 302
+        activity.refresh_from_db()
+        assert activity.quantity == 999
+
+    def test_update_others_activity_forbidden(self, client, user, other_user, category):
+        """Test that a user cannot edit someone else's activity."""
+
+        others_user_activity = Activity.objects.create(
+            user=other_user, category=category, quantity=10, unit="km"
+        )
+
+        client.force_login(user)
+        url = reverse("activities:update", kwargs={"pk": others_user_activity.pk})
+
+        response = client.get(url)
+
+        assert response.status_code == 403
