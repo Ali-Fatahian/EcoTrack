@@ -94,16 +94,8 @@
               const ctx = document.getElementById('emissionsChart').getContext('2d');
 
               // Parse the data passed from Django
-              const labels = {
-                {
-                  chart_labels | safe
-                }
-              };
-              const data = {
-                {
-                  chart_data | safe
-                }
-              };
+              const labels = {{ chart_labels | safe }};
+              const data = {{ chart_data | safe }};
 
               new Chart(ctx, {
                 type: 'bar',
