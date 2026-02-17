@@ -9,7 +9,7 @@
   <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Activity Log</h2>
-      <a href="Add activity url" class="btn btn-primary">+ Add New</a>
+      <a href="{% url 'activities:create' %}" class="btn btn-primary">+ Add New</a>
     </div>
     <div class="card shadow-sm">
       <div class="table-responsive">
@@ -31,14 +31,16 @@
                 </td>
                 <td class="fw-bold">{{ activity.co2_amount }}</td>
                 <td class="text-end pe-3">
-                  <a href="Edit activity link" class="text-decoration-none hover-link">Edit</a>
-                  | <a href="Delete link" class="text-decoration-none hover-link">Delete</a>
+                  <a href="{% url 'activities:update' activity.pk %}"
+                     class="text-decoration-none hover-link">Edit</a>
+                  | <a href="{% url 'activities:delete' activity.pk %}"
+    class="text-decoration-none hover-link">Delete</a>
                 </td>
               </tr>
             {% empty %}
               <tr>
                 <td colspan="3" class="text-center py-5 text-muted">
-                  No activities found. <a href="Add activity url">Add one now!</a>
+                  No activities found. <a href="{% url 'activities:create' %}">Add one now!</a>
                 </td>
               </tr>
             {% endfor %}
