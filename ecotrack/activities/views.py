@@ -1,12 +1,24 @@
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Sum
+from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import ListView
 from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView
+from django.views.generic.edit import DeleteView
+from django.views.generic.edit import UpdateView
 
+from ecotrack.activities.forms import ActivityForm
 from ecotrack.activities.models import Activity
+
+
+class IsOwnerMixin(UserPassesTestMixin):
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -66,3 +78,33 @@ class ActivityListView(ListView):
 
     def get_queryset(self):
         return Activity.objects.filter(user=self.request.user)
+
+
+class ActivityCreateView(LoginRequiredMixin, CreateView):
+    model = Activity
+    form_class = ActivityForm
+    template_name = "activities/activity_form.html"
+
+    def get_success_url(self):
+        return reverse("activities:list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class ActivityUpdateView(LoginRequiredMixin, IsOwnerMixin, UpdateView):
+    model = Activity
+    form_class = ActivityForm
+    template_name = "activities/activity_form.html"
+
+    def get_success_url(self):
+        return reverse("activities:list")
+
+
+class ConfirmDeleteView(LoginRequiredMixin, IsOwnerMixin, DeleteView):
+    model = Activity
+    template_name = "activities/activity_confirm_delete.html"
+
+    def get_success_url(self):
+        return reverse("activities:list")
