@@ -33,6 +33,6 @@ class ActivityForm(forms.ModelForm):
     def clean_date(self):
         date = self.cleaned_data.get("date")
         if date and date > timezone.now().date():
-            validation_err_message = "The activity date cannot be in the future."
+            validation_err_message = "The activity date can not be in the future."
             raise ValidationError(validation_err_message)
         return date
