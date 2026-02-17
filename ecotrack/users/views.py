@@ -8,6 +8,9 @@ from django.views.generic import RedirectView
 from django.views.generic import UpdateView
 
 from ecotrack.users.models import User
+from ecotrack.users.models import UserProfile
+
+from .forms import UserProfileForm
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -44,3 +47,16 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = UserProfile
+    form_class = UserProfileForm
+    template_name = "users/profile_form.html"
+    success_message = "Your monthly goal has been updated!"
+
+    def get_object(self):
+        return self.request.user.profile
+
+    def get_success_url(self):
+        return reverse("activities:dashboard")
