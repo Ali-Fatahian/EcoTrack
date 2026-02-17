@@ -126,6 +126,45 @@ def test_activity_negative_quantity_value(user, category):
 
 
 @pytest.mark.django_db
+def test_activity_unit_default_value(user, category):
+    """
+    Test that a new activity defaults to 'km'
+    if no unit is specified.
+    """
+    activity = Activity.objects.create(
+        user=user,
+        category=category,
+        quantity=10,
+    )
+
+    assert activity.unit == Activity.UnitChoices.KILOMETER
+    assert activity.unit == "km"
+
+
+@pytest.mark.django_db
+def test_activity_unit_valid_choices(user, category):
+    """
+    Test that we can save an activity with other valid units.
+    """
+    activity = Activity.objects.create(
+        user=user, category=category, quantity=5, unit=Activity.UnitChoices.KILOGRAM
+    )
+
+    assert activity.unit == "kg"
+
+
+@pytest.mark.django_db
+def test_activity_unit_invalid_choice(user, category):
+    """
+    Test that the model rejects invalid units like miles.
+    """
+    activity = Activity(user=user, category=category, quantity=10, unit="miles")
+
+    with pytest.raises(ValidationError):
+        activity.full_clean()
+
+
+@pytest.mark.django_db
 def test_activity_defaults_to_today(user, category):
     """
     Verify that when users don't provide the date,
