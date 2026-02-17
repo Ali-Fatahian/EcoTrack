@@ -54,3 +54,27 @@ class TestDashboardView:
         assert "Flug" in labels
 
         assert len(response.context["recent_activities"]) == 2
+
+
+class TestActivityListView:
+    def test_list_view_shows_own_activities_only(
+        self, client, user, other_user, category
+    ):
+        """
+        Verify users only see their own activities.
+        """
+        client.force_login(user)
+
+        my_activity = Activity.objects.create(
+            user=user, category=category, quantity=10, unit="km"
+        )
+        other_user_activity = Activity.objects.create(
+            user=other_user, category=category, quantity=20, unit="km"
+        )
+
+        response = client.get(reverse("activities:list"))
+
+        assert response.status_code == 200
+        activities = response.context["activities"]
+        assert my_activity in activities
+        assert other_user_activity not in activities
