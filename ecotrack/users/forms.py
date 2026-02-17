@@ -1,9 +1,11 @@
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
+from django import forms
 from django.contrib.auth import forms as admin_forms
 from django.utils.translation import gettext_lazy as _
 
 from .models import User
+from .models import UserProfile
 
 
 class UserAdminChangeForm(admin_forms.UserChangeForm):
@@ -38,3 +40,19 @@ class UserSocialSignupForm(SocialSignupForm):
     Default fields will be added automatically.
     See UserSignupForm otherwise.
     """
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ["monthly_goal"]
+        labels = {"monthly_goal": "Monthly CO2 Goal (kg)"}
+        widgets = {
+            "monthly_goal": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "e.g., 150.00",
+                    "step": "0.5",
+                }
+            )
+        }
