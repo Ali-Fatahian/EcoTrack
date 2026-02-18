@@ -1,63 +1,39 @@
 # EcoTrack
 
-Case Study - surfgreen.dev GMBH
+**EcoTrack** is a Django-based web application designed to help users track their personal carbon footprint. It allows users to log daily activities (such as transport, food consumption, and energy use), calculates CO₂ emissions automatically, and visualizes progress towards monthly goals.
 
-[![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+This project was built using **Django 5.2**, **Python 3.13**, and **Docker**.
 
-License: MIT
+## Features
 
-## Settings
+* **Activity Logging:** Users can create, update, delete, and see the list of all the activities. CO₂ emissions are calculated automatically based on the selected co2 factor.
+* **Interactive Dashboard:**
+    * **Visual Breakdown:** Doughnut/Bar charts (via Chart.js) showing emissions by category.
+    * **Goal Tracking:** A progress bar tracking monthly emissions against a user-defined limit.
+    * **Recent History:** Quick view of the last 5 activities.
+* **Data Export:** Users can download their full activity history as a CSV file.
+* **Authentication:** Secure user registration, and login, using `django-allauth`.
+* **Admin Interface:** Django Admin Panel with added custom filters, search functionality, and improved list of displayed items for the Activity model.
 
-Moved to [settings](https://cookiecutter-django.readthedocs.io/en/latest/1-getting-started/settings.html).
+## Tech Stack
 
-## Basic Commands
+* **Backend:** Python 3.13, Django 5.2
+* **Database:** PostgreSQL (via Docker Compose)
+* **Frontend:** Bootstrap 5, Chart.js
+* **Testing:** Pytest
+* **Infrastructure:** Docker, Docker Compose
+* **CI/CD:** GitHub Actions
+* **Tooling:** Cookiecutter Django, Pre-commit, Ruff
 
-### Setting Up Your Users
+---
 
-- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+## ⚙️ Setup & Installation
 
-- To create a **superuser account**, use this command:
+**Prerequisites:**
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running.
 
-      uv run python manage.py createsuperuser
+### 1. Build the Project
+Build the Docker images for the local development environment:
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
-
-### Type checks
-
-Running type checks with mypy:
-
-    uv run mypy ecotrack
-
-### Test coverage
-
-To run the tests, check your test coverage, and generate an HTML coverage report:
-
-    uv run coverage run -m pytest
-    uv run coverage html
-    uv run open htmlcov/index.html
-
-#### Running tests with pytest
-
-    uv run pytest
-
-### Live reloading and Sass CSS compilation
-
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally.html#using-webpack-or-gulp).
-
-### Email Server
-
-In development, it is often nice to be able to see emails that are being sent from your application. For that reason local SMTP server [Mailpit](https://github.com/axllent/mailpit) with a web interface is available as docker container.
-
-Container mailpit will start automatically when you will run all docker containers.
-Please check [cookiecutter-django Docker documentation](https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally-docker.html) for more details how to start all containers.
-
-With Mailpit running, to view messages that are sent by your application, open your browser and go to `http://127.0.0.1:8025`
-
-## Deployment
-
-The following details how to deploy this application.
-
-### Docker
-
-See detailed [cookiecutter-django Docker documentation](https://cookiecutter-django.readthedocs.io/en/latest/3-deployment/deployment-with-docker.html).
+```bash
+docker compose -f docker-compose.local.yml build
