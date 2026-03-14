@@ -1,13 +1,138 @@
-/* These styles are generated from project.scss. */
-
-.alert-debug {
-  color: black;
-  background-color: white;
-  border-color: #d6e9c6;
+:root {
+  --mono-black: #212529; /* Bootstrap Dark Grey */
+  --mono-dark: #343a40;
+  --mono-gray: #6c757d;
+  --mono-light: #f8f9fa; /* Backgrounds */
+  --mono-white: #ffffff;
 }
 
-.alert-error {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
+/* --- BUTTONS: PRIMARY (Solid Black) --- */
+.btn-primary {
+  background-color: var(--mono-black) !important;
+  border-color: var(--mono-black) !important;
+  color: white !important;
+  border-radius: 6px; /* Slightly sharper corners */
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: black !important; /* Pure black on hover */
+  border-color: black !important;
+}
+
+/* --- BUTTONS: OUTLINE (Black Border) --- */
+.btn-outline-primary {
+  color: var(--mono-black) !important;
+  border-color: var(--mono-black) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--mono-black) !important;
+  color: white !important;
+}
+
+/* --- TEXT & LINKS --- */
+.text-primary,
+a {
+  color: var(--mono-black);
+  text-decoration: underline; /* Classic understated look */
+  text-underline-offset: 4px;
+}
+
+a:hover {
+  color: black;
+  text-decoration-thickness: 2px;
+}
+
+/* --- NAVBAR --- */
+.navbar {
+  background-color: white !important;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--mono-gray) !important;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  color: var(--mono-black) !important;
+  font-weight: 600;
+}
+
+/* --- CARDS (Subtle & Clean) --- */
+.card {
+  background-color: white;
+  border: 1px solid #e9ecef !important; /* Very subtle border */
+  box-shadow: none !important; /* Flat design, no shadows */
+}
+
+.card-header {
+  background-color: var(--mono-light) !important;
+  border-bottom: 1px solid #e9ecef !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--mono-gray);
+}
+
+/* --- UTILITIES --- */
+.bg-primary {
+  background-color: var(--mono-black) !important;
+}
+
+/* Soft gray background for the whole page (apply this to body in HTML if needed) */
+body {
+  background-color: #fafafa;
+}
+
+
+.alert-debug {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px dashed #dee2e6;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+}
+
+.alert-error, .alert-danger {
+  background-color: #212529 !important; /* Almost Black */
+  color: #ffffff !important;            /* Pure White */
+  border: 1px solid black !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* 3. WARNING
+ - Stripes or a thick border to suggest caution
+*/
+.alert-warning {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border: 2px solid #212529 !important; /* Thick black border */
+}
+
+/* 4. INFO: The "Standard" Look
+ - Clean gray background
+*/
+.alert-info {
+  background-color: #e9ecef !important;
+  color: #212529 !important;
+  border: 1px solid #dee2e6 !important;
+}
+
+.alert-success {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border: 1px solid #e9ecef;
+  border-left: 5px solid #212529 !important; /* The "Success" Indicator */
+  font-weight: 500;
+}
+
+.h-300 {
+  height: 300px;
+}
+
+.hover-link:hover {
+  text-decoration: underline !important;
 }

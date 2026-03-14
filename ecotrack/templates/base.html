@@ -47,7 +47,7 @@
     {% block body %}
       <div class="mb-1">
         <nav class="navbar navbar-expand-md navbar-light bg-light">
-          <div class="container-fluid">
+          <div class="container">
             <button class="navbar-toggler navbar-toggler-right"
                     type="button"
                     data-bs-toggle="collapse"
@@ -57,34 +57,37 @@
                     aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'home' %}">EcoTrack</a>
+            <a class="navbar-brand" href="{% url 'activities:dashboard' %}">EcoTrack</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
+                  <a class="nav-link {% if request.resolver_match.view_name == 'activities:dashboard' %}active fw-bold{% endif %}"
+                     href="{% url 'activities:dashboard' %}">Dashboard <span class="visually-hidden">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'about' %}">About</a>
+                  <a class="nav-link {% if request.resolver_match.view_name == 'activities:list' %}active fw-bold{% endif %}"
+                     href="{% url 'activities:list' %}">Activities</a>
                 </li>
                 {% if request.user.is_authenticated %}
                   <li class="nav-item">
-                    <a class="nav-link"
-                       href="{% url 'users:detail' request.user.username %}">{% translate "My Profile" %}</a>
-                  </li>
-                  <li class="nav-item">
                     {# URL provided by django-allauth/account/urls.py #}
-                    <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
+                    <a class="nav-link {% if request.resolver_match.view_name == 'account_logout' %}active fw-bold{% endif %}"
+                       href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
                   </li>
                 {% else %}
                   {% if ACCOUNT_ALLOW_REGISTRATION %}
                     <li class="nav-item">
                       {# URL provided by django-allauth/account/urls.py #}
-                      <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
+                      <a id="sign-up-link"
+                         class="nav-link {% if request.resolver_match.view_name == 'account_signup' %}active fw-bold{% endif %}"
+                         href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
                     </li>
                   {% endif %}
                   <li class="nav-item">
                     {# URL provided by django-allauth/account/urls.py #}
-                    <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
+                    <a id="log-in-link"
+                       class="nav-link {% if request.resolver_match.view_name == 'account_login' %}active fw-bold{% endif %}"
+                       href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
                   </li>
                 {% endif %}
               </ul>
